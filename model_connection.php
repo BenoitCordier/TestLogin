@@ -11,15 +11,15 @@ function connection($user_name, $password) {
 	    die('Erreur : '.$e->getMessage());
 	}
 
-	$user_name = $_POST['user_name'];
-	$password = $_POST['password'];
+	$user_name = !empty($_POST['user_name']) ? $_POST['user_name'] : NULL;
+	$password = !empty($_POST['password']) ? $_POST['password'] : NULL;
 
 	$req = $bdd->prepare('SELECT id, password FROM user WHERE user_name = :user_name');
 	$req->execute(array(
 		'user_name' => $user_name));
 	$resultat = $req->fetch();
 
-	$isPasswordCorrect = password_verify($_POST['password'], $resultat['password']);
+	$isPasswordCorrect = !empty($_POST['password']) ? password_verify($_POST['password'], $resultat['password']) : NULL;
 
 	if (!$resultat)	{
 		echo 'Mauvais identifiant ou mot de passe !';

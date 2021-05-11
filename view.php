@@ -25,7 +25,7 @@
 
     <div>
         <h2>S'enregistrer</h2>
-        <form method="POST" action="/Test/model_inscritpion.php">
+        <form method="POST" action="/Test/model_inscription.php">
             <label for="new_login">Login :</label>
             <input id="new_login" type="text" name="new_login" />
             <label for="new_firstname">Prénom :</label>

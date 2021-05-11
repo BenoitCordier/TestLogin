@@ -11,13 +11,13 @@ function inscription($user_name, $password, $e_mail) {
 		die('Erreur : '.$e->getMessage());
 	}
 
-	$user_name = $_POST['user_name'];
-	$password = $_POST['password'];
-	$first_name = $_POST['first_name'];
-	$last_name = $_POST['last_name'];
-	$e_mail = $_POST['e_mail'];
+	$user_name = !empty($_POST['user_name']) ? $_POST['user_name'] : NULL;
+	$password = !empty($_POST['password']) ? $_POST['password'] : NULL;
+	$first_name = !empty($_POST['first_name']) ? $_POST['first_name'] : NULL;
+	$last_name = !empty($_POST['last_name']) ? $_POST['last_name'] : NULL;
+	$e_mail = !empty($_POST['e_mail']) ? $_POST['e_mail'] : NULL;
 
-	$pass_hache = password_hash($_POST['password'], PASSWORD_DEFAULT);
+	$pass_hache = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : NULL; 
 
 	$req = $bdd->prepare('INSERT INTO user(user_name, first_name, last_name, e_mail, password) VALUES(:user_name, :first_name, :last_name, :e_mail, :password');
 	$req->execute(array(
