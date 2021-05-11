@@ -11,6 +11,9 @@ function connection($user_name, $password) {
 	    die('Erreur : '.$e->getMessage());
 	}
 
+	$user_name = $_POST['user_name'];
+	$password = $_POST['password'];
+
 	$req = $bdd->prepare('SELECT id, password FROM user WHERE user_name = :user_name');
 	$req->execute(array(
 		'user_name' => $user_name));

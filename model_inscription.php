@@ -1,6 +1,6 @@
 <?php
 
-function inscription($login, $password, $e_mail) {
+function inscription($user_name, $password, $e_mail) {
 	
 	try
 	{
@@ -10,6 +10,12 @@ function inscription($login, $password, $e_mail) {
 	{
 		die('Erreur : '.$e->getMessage());
 	}
+
+	$user_name = $_POST['user_name'];
+	$password = $_POST['password'];
+	$first_name = $_POST['first_name'];
+	$last_name = $_POST['last_name'];
+	$e_mail = $_POST['e_mail'];
 
 	$pass_hache = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
