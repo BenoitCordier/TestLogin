@@ -1,5 +1,8 @@
 <?php
 
+$user_name = !empty($_POST['user_name']) ? $_POST['user_name'] : NULL;
+$password = !empty($_POST['password']) ? $_POST['password'] : NULL;
+
 function connection($user_name, $password) {
 
 	try
@@ -10,9 +13,6 @@ function connection($user_name, $password) {
 	{
 	    die('Erreur : '.$e->getMessage());
 	}
-
-	$user_name = !empty($_POST['user_name']) ? $_POST['user_name'] : NULL;
-	$password = !empty($_POST['password']) ? $_POST['password'] : NULL;
 
 	$req = $bdd->prepare('SELECT id, password FROM user WHERE user_name = :user_name');
 	$req->execute(array(
@@ -34,3 +34,5 @@ function connection($user_name, $password) {
 		}
 	}
 }
+
+connection($user_name, $password);

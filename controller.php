@@ -6,6 +6,6 @@ connection($user_name, $password);
 
 require('model_inscription.php');
 
-inscription($login, $password, $e_mail);
+inscription($user_name, $password, $e_mail);
 
 require('view.php');
