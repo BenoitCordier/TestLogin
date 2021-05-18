@@ -14,8 +14,8 @@
         <h2>Se connecter</h2>
         <form method="POST" action="model_connection.php">
             <label for="user_login">Login :</label>
-            <input id="user_login" type="text" name="login" />
-            <label for="user_login">Password :</label>
+            <input id="user_login" type="text" name="user_name" />
+            <label for="user_password">Password :</label>
             <input id="user_password" type="text" name="password" />
             <input type="submit" value="Connection" />
         </form>
