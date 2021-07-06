@@ -13,26 +13,21 @@ function inscription($user_name, $password, $e_mail, $first_name, $last_name, $c
 	{
 		$bdd = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', 'root');
 		
-		$mysqli = new mysqli("localhost", "root", "root", "test");
+			$sql = "SELECT user_name, e_mail AS count FROM `user` WHERE user_name=? OR e_mail=?";
+			$stmt = $bdd->prepare($sql);
+			$stmt->execute([$username, $email]);
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-		if($mysqli->connect_error)
-		{
-			die("Connection failed: " . $conn->connect_error);
-		}
-		else
-		{
-		$query_user = mysqli_query($mysqli, "SELECT * FROM user WHERE user_name='$user_name'");
-		$query_email = mysqli_query($mysqli, "SELECT * FROM user WHERE e_mail='$e_mail'");
+				if ($row['user_name'] === $user_name) {
+					echo "Ce nom d'utilisateur est déjà pris. Veuillez en choisir un autre.";   
+				}
 
-			if(mysqli_num_rows($query_user) > 0)
-			{
-				echo "Ce nom d'utilisateur est déjà pris. Veuillez en choisir un autre.";   
+				if ($row['e_mail'] === $e_mail) {
+					echo "Cet e-mail est déjà utilisé. Veuillez en indiquer un autre.";
+				}
 			}
-			elseif(mysqli_num_rows($query_email) > 0)
-			{
-				echo "Cet e-mail est déjà utilisé. Veuillez en indiquer un autre.";
-			}		
-			elseif ($user_name === NULL)
+
+			if ($user_name === NULL)
 			{
 				echo "Veuillez saisir un nom d'utilisateur valide.";
 			}

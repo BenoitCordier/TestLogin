@@ -28,7 +28,7 @@ function connection($user_name, $password) {
 			session_start();
 			$_SESSION['id'] = $resultat['id'];
 			$_SESSION['user_name'] = $user_name;
-			echo 'Vous êtes connecté !';
+			echo "Bonjour " . $user_name . ". Vous êtes connecté !";
 		} else {
 			echo 'Mauvais identifiant ou mot de passe !';
 		}
