@@ -126,7 +126,6 @@ class UserManager {
         $stmt = $this->_db->prepare($sql);
         $stmt->execute([$user_name]);
         $result = $stmt->fetch();
-        var_dump($result);
         return $result;
     }
 
@@ -135,14 +134,13 @@ class UserManager {
         $stmt = $this->_db->prepare($sql);
         $stmt->execute([$e_mail]);
         $result = $stmt->fetch();
-        var_dump($result);
         return $result;
     }
 
-    public function signIn($user_name, $password, $e_mail, $first_name, $last_name) {
-        $req = $this->_db->prepare('INSERT INTO user(user_name, first_name, last_name, e_mail, password, function) VALUES(:user_name, :first_name, :last_name, :e_mail, :password, "user")');
+    public function signIn($user_name, $pass_hash, $e_mail, $first_name, $last_name) {
+        $req = $this->_db->prepare('INSERT INTO user(user_name, first_name, last_name, e_mail, password, function) VALUES(:user_name, :first_name, :last_name, :e_mail, :pass_hash, "user")');
         $req->bindParam(':user_name', $user_name);
-        $req->bindParam(':password', $password);
+        $req->bindParam(':pass_hash', $pass_hash);
         $req->bindParam(':e_mail', $e_mail);
         $req->bindParam(':first_name', $first_name);
         $req->bindParam(':last_name', $last_name);
@@ -150,11 +148,12 @@ class UserManager {
         return $result;
     }
 
-    public function logIn($user_name, $password) {
-        $req = $bdd->prepare('SELECT id, password FROM user WHERE user_name = :user_name AND password = :password');
-	    $req->execute(array('user_name' => $user_name, 'password' => $password));
-	    $result = $req->fetch();
+    public function getUser($user_name) {
+        $req = $this->_db->prepare('SELECT user_name, password FROM user WHERE user_name=?');
+	    $req->execute(array($user_name));
+        $result = $req->fetch(PDO::FETCH_ASSOC);
         return $result;
+        var_dump($result);
     }
 
 }

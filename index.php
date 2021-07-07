@@ -13,5 +13,5 @@ if (isset($_GET['action'])) {
 }
 else
 {
-echo 'coucou';
+echo "";
 }

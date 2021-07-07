@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <h1>Page de connection</h1>
+    <h1>Page de connexion</h1>
 
     <div>
         <h2>Se connecter</h2>
@@ -17,7 +17,7 @@
             <input id="user_login" type="text" name="user_name" />
             <label for="user_password">Password :</label>
             <input id="user_password" type="text" name="password" />
-            <input type="submit" value="Connection" />
+            <input type="submit" value="Connexion" />
         </form>
     </div>
 

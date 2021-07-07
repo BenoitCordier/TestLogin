@@ -6,43 +6,34 @@ require 'model_db.php';
 
 require 'view.php';
 
-
-/*function signIn() {
-    $bdd = dbConnection();
-
-    $userManager = new UserManager($bdd);
-
-    $user_name = 'Tom';
-    $password = '1234';
-    $e_mail = 'abab@gmail.com';
-    $last_name = 'dupont';
-    $first_name = 'tom';
-
-    $req = $userManager->signIn($user_name, $password, $e_mail, $first_name, $last_name);
-}
-
-signIn();*/
-
 // method login et signin avec les vérifications
 
 function logIn() {
+    $db = dbConnection();
+
+    $userManager = new UserManager($db);
+
     $user_name = !empty($_POST['user_name']) ? $_POST['user_name'] : NULL;
     $password = !empty($_POST['password']) ? $_POST['password'] : NULL;
 
-	$isPasswordCorrect = !empty($_POST['password']) ? password_verify($_POST['password'], $resultat['password']) : NULL;
+    $get_user = $userManager->getUser($user_name);
+    $is_user_exist = $get_user->fetchColumn();
 
-	if (!$resultat)	{
-		echo 'Mauvais identifiant ou mot de passe !';
-	} else {
-		if ($isPasswordCorrect) {
-			session_start();
-			$_SESSION['id'] = $resultat['id'];
-			$_SESSION['user_name'] = $user_name;
+	$is_password_correct = !empty($_POST['password']) ? password_verify($_POST['password'], $get_user['password']) : NULL;
+
+    if ($is_user_exist > 0) {
+        if ($is_password_correct) {
+            session_start();
+            $_SESSION['user_name'] = $user_name;
 			echo "Bonjour " . $user_name . ". Vous êtes connecté !";
-		} else {
-			echo 'Mauvais identifiant ou mot de passe !';
-		}
-	}
+        }
+        else {
+            echo 'Mauvais identifiant ou mot de passe !';
+        }
+    }
+    else {
+        echo 'Mauvais identifiant ou mot de passe !';
+    }
 }
 
 function signIn() {
@@ -91,9 +82,9 @@ function signIn() {
     }
     else
     {
-        $pass_hache = password_hash($password, PASSWORD_DEFAULT);
+        $pass_hash = password_hash($password, PASSWORD_DEFAULT);
 
-        $req = $userManager->signIn($user_name, $password, $e_mail, $first_name, $last_name);
+        $req = $userManager->signIn($user_name, $pass_hash, $e_mail, $first_name, $last_name);
 
         echo "Bienvenue " . $first_name . " " . $last_name . " ! Vous vous êtes enregistré sous le pseudonyme " . $user_name . " !";
     }
