@@ -122,7 +122,7 @@ class UserManager {
 // Method
 
     public function checkUser($user_name) {
-        $sql = "SELECT user_name FROM `user` WHERE user_name=?";
+        $sql = "SELECT user_name FROM user WHERE user_name=?";
         $stmt = $this->_db->prepare($sql);
         $stmt->execute([$user_name]);
         $result = $stmt->fetch();
@@ -130,7 +130,7 @@ class UserManager {
     }
 
     public function checkEmail($e_mail) {
-        $sql = "SELECT e_mail FROM `user` WHERE e_mail=?";
+        $sql = "SELECT e_mail FROM user WHERE e_mail=?";
         $stmt = $this->_db->prepare($sql);
         $stmt->execute([$e_mail]);
         $result = $stmt->fetch();
@@ -149,11 +149,18 @@ class UserManager {
     }
 
     public function getUser($user_name) {
-        $req = $this->_db->prepare('SELECT user_name, password FROM user WHERE user_name=?');
-	    $req->execute(array($user_name));
-        $result = $req->fetch(PDO::FETCH_ASSOC);
+        $req = $this->_db->prepare('SELECT user_name, password FROM user WHERE user_name = :user_name');
+	    $req->bindParam(':user_name', $user_name);
+        $result = $req->execute();
         return $result;
         var_dump($result);
+    }
+
+    public function getPassHash($user_name) {
+        $req = $this->_db->prepare('SELECT password FROM user WHERE user_name = :user_name');
+        $req->bindParam('user_name', $user_name);
+        $result = $req->execute(array());
+        return $result;
     }
 
 }
