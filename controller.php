@@ -19,12 +19,17 @@ function logIn() {
     $is_user_exist = $user_manager->getUser($user_name);
     $get_pass_hash = $user_manager->getPassHash($user_name);
 
-	$is_password_correct = password_verify($_POST['password'], $get_pass_hash);
+    if ($is_user_exist) {
+        $is_password_correct = password_verify($_POST['password'], $get_pass_hash['password']);
 
-    if ($is_user_exist && $is_password_correct) {
+        if ($is_password_correct) {
             session_start();
             $_SESSION['user_name'] = $user_name;
-			echo "Bonjour " . $user_name . ". Vous êtes connecté !";
+            echo "Bonjour " . $user_name . ". Vous êtes connecté !";
+        }
+        else {
+            echo 'Mauvais identifiant ou mot de passe !';
+        }
     }
     else {
         echo 'Mauvais identifiant ou mot de passe !';

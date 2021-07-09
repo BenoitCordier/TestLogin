@@ -149,17 +149,18 @@ class UserManager {
     }
 
     public function getUser($user_name) {
-        $req = $this->_db->prepare('SELECT user_name, password FROM user WHERE user_name = :user_name');
-	    $req->bindParam(':user_name', $user_name);
-        $result = $req->execute();
+        $sql = "SELECT user_name FROM user WHERE user_name = ?";
+        $stmt = $this->_db->prepare($sql);
+        $stmt->execute([$user_name]);
+        $result = $stmt->fetch();
         return $result;
-        var_dump($result);
     }
 
     public function getPassHash($user_name) {
-        $req = $this->_db->prepare('SELECT password FROM user WHERE user_name = :user_name');
-        $req->bindParam('user_name', $user_name);
-        $result = $req->execute(array());
+        $sql = "SELECT password FROM user WHERE user_name = ?";
+        $stmt = $this->_db->prepare($sql);
+        $stmt->execute([$user_name]);
+        $result = $stmt->fetch();
         return $result;
     }
 
